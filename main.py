@@ -64,7 +64,7 @@ def get_action_map(env, agent,dt_now):
         for j in range(200):
             horizontal = x[j]
             depth = y[i]
-            cur_state = np.array([depth,horizontal], dtype=np.float32)
+            cur_state = np.array([depth,horizontal],dtype=np.float32)
             action = agent.compute_action(cur_state)
             mesh[i][j] = np.rad2deg(action)
             reward = env.get_reward(cur_state,action)[0]
@@ -162,8 +162,8 @@ def RL(step_weight,ite,AL_ite,dt_now,mu_E):
     trainer = ppo.PPOTrainer(env=ccdst,config={
                                  'env_config':{'step_weight':step_weight,
                                                'treasure_weight':treasure_weight,
-                                               'T_NUMBER':1,#エキスパート軌跡の数
-                                               'T_LENGTH':6},#エキスパートの最大軌跡長
+                                               'T_NUMBER':1,
+                                               'T_LENGTH':6},
                                  'num_workers':1,
                                  'num_envs_per_worker':1,
                                  'num_gpus':0,
@@ -179,7 +179,7 @@ def RL(step_weight,ite,AL_ite,dt_now,mu_E):
         
     env = ccdst({'step_weight':step_weight,
                  'treasure_weight':treasure_weight,
-                 'T_NUMBER':1,#エキスパート軌跡の数
+                 'T_NUMBER':1,
                  'T_LENGTH':6})
     
     mu,trajectory = get_mu(env,trainer)
@@ -195,9 +195,9 @@ def RL(step_weight,ite,AL_ite,dt_now,mu_E):
         with open('results/result_{0}.csv'.format(dt_now.strftime('%y%m%d-%H%M%S')), 'w') as csvfile:
                 writer = csv.writer(csvfile, lineterminator='\n')
                 #見出し
-                writer.writerow(['MWAL総試行回数','Expert_w(step,treasure)','エキスパート軌跡','mu_Expert'])
+                writer.writerow(['Total_of_MWAL_iteration','Expert_w(step,treasure)','expert_trajectory','mu_Expert'])
                 writer.writerow([AL_ite, w, trajectory, mu])
-                writer.writerow(['MWAL試行回数','重みベクトル','出力軌跡','特徴期待値'])
+                writer.writerow(['MWAL_iteration','weight_vector','output_traj','mu'])
     else:
         beta = (1.0 + np.sqrt(2*np.log(2)/AL_ite))**(-1.0)
         W = [0,0]
@@ -210,7 +210,7 @@ def RL(step_weight,ite,AL_ite,dt_now,mu_E):
             
         with open('results/result_{0}.csv'.format(dt_now.strftime('%y%m%d-%H%M%S')), 'a') as csvfile:
                 writer = csv.writer(csvfile, lineterminator='\n')
-                #'MWAL試行回数','重みベクトル','出力軌跡','特徴期待値'
+                #'Total of MWAL iteration','weight','output trajectory','feature expectation(mu)'
                 writer.writerow([ite, w, trajectory, mu])
     
     return mu, w
@@ -218,7 +218,7 @@ def RL(step_weight,ite,AL_ite,dt_now,mu_E):
 
 def main(play):
     dt_now = datetime.datetime.now()
-    step_weight = 0.85
+    step_weight = 0.15
     
     AL_ite = 5 #MWALの総試行回数
     mu_E = [0,0]

@@ -77,32 +77,7 @@ class ContinuousDeepSeaTreasure(gym.Env):
         return self.pos
 
     def render(self, mode='human'):
-        pass
-    """
-        screen_width = 500
-        screen_height = 500
-        world_width = 2.4*2
-        scale = screen_width/world_width
-        
-        if self.viewer is None:
-            from gym.envs.classic_control import rendering
-            self.viewer = rendering.Viewer(screen_width,screen_height)
-            l,r,t,b = -4,4,4,-4
-            axleoffset = 1
-            AUV = rendering.FilledPolygon([(l,b),(l,t),(r,t),(r,b)])
-            self.AUVtrans = rendering.Transform()
-            AUV.add_attr(self.AUVtrans)
-            self.viewer.add_geom(AUV)
-            
-            self.track =rendering.Line((0,30),(500,30))
-            self.track.set_color(0,0,0)
-            self.viewer.add_geom(self.track)
-            
-        x = self.pos
-        AUVx = x[0]*scale + screen_width/2.0
-        self.AUVtrans
-      """      
-            
+        pass   
 
     def close(self):
         if self.viewer:
